@@ -86,6 +86,29 @@ class UserModel extends Model{
     
     }
 
+    public function check_user($data2){
+        $result=true;
+
+        try{
+            $sql = "CALL sp_check_user( :email)";
+            $connection = $this->db->connect();
+            $query = $connection->prepare($sql);
+            $query->execute($data2);
+
+            if($query->rowCount() > 0){
+                $result = true;
+            }else{
+                $result = false;
+            }
+
+        }catch(PDOException $e){
+            $result = true;
+        }
+
+        return $result;
+    
+    }
+
 
 }
 
