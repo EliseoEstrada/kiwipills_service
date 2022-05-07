@@ -34,19 +34,17 @@ class UserModel extends Model{
                     'lastname02' => $row['lastname02'],
                     'phone'      => $row['phone'],
                 );
-
+                //$response = array('result', 'success user added');
                 $result = $user;
             }else{
-                $result = array(0);
+                $result = array('result', 'error');
             }
 
         }catch(PDOException $e){
-            echo $e;
-            $result = array(0);
+            $result = array('error', $e);
         }
-
+        //echo json_encode($response);
         return $result;
-    
     }
 
     public function login($data){
@@ -72,16 +70,45 @@ class UserModel extends Model{
                     'lastname02' => $row['lastname02'],
                     'phone'      => $row['phone'],
                 );
-
+                
+                //$response = array('response', 'user logged in');
                 $result = $user;
             }else{
-                $result = array(0);
+                $result = array('response', 'user not logged in');
+                //$result = array(0);
             }
 
         }catch(PDOException $e){
-            $result = array(0);
+            $result = array('response', 'server error');
+            //$result = array(0);
         }
+        //echo json_encode($response);
+        return $result;
+    
+    }
 
+    public function check_user($data2){
+        $result=true;
+
+        try{
+            $sql = "CALL sp_check_user( :email)";
+            $connection = $this->db->connect();
+            $query = $connection->prepare($sql);
+            $query->execute($data2);
+
+            if($query->rowCount() > 0){
+                $response = array('response', 'user exists');
+                $result = true;
+            }else{
+                $response = array('response', 'success user doesnt exists');
+                $result = false;
+            }
+
+        }catch(PDOException $e){
+            $response = array('response', $e);
+            $result = true;
+        }
+        //echo json_encode($response);
         return $result;
     
     }

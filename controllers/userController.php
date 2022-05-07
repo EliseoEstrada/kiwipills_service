@@ -34,7 +34,17 @@ class UserController extends Controller{
                 'phone'         => $phone
             );
 
-            $this->json = $this->model->signup($data);
+            $data2 = array(
+                'email'         => $data['email']
+            );
+
+
+            if(!$this->model->check_user($data2)){
+                $this->json = $this->model->signup($data);
+            } else{
+                $this->json = array('error', 'User already exists');
+            }
+
             echo json_encode($this->json);
         }
 
