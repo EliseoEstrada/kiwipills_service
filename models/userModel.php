@@ -10,7 +10,7 @@ class UserModel extends Model{
         $result;
 
         try{
-            $sql = "CALL sp_signup( :email, :password, :username, :name, :lastname01, :lastname02, :phone)";
+            $sql = "CALL sp_signup( :email, :password, :username, :name, :lastname01, :lastname02, :phone, :image)";
             //$sql = "SELECT id, email, password, username FROM users WHERE email = '".$data['email']."' AND password = '".$data['password']."'";
  
             $connection = $this->db->connect();
@@ -33,6 +33,7 @@ class UserModel extends Model{
                     'lastname01' => $row['lastname01'],
                     'lastname02' => $row['lastname02'],
                     'phone'      => $row['phone'],
+                    'image'      => $row['image'],
                 );
 
                 $result = $user;
@@ -71,6 +72,7 @@ class UserModel extends Model{
                     'lastname01' => $row['lastname01'],
                     'lastname02' => $row['lastname02'],
                     'phone'      => $row['phone'],
+                    'image'      => $row['image'],
                 );
 
                 $result = $user;

@@ -23,6 +23,7 @@ class UserController extends Controller{
             $lastname01 = isset($data['lastname01']) ? $data['lastname01'] : "";
             $lastname02 = isset($data['lastname02']) ? $data['lastname02'] : "";
             $phone = isset($data['phone']) ? $data['phone'] : "";
+            $image = isset($data['image']) ? $data['image'] : "";
 
             $data = array(
                 'email'         => $data['email'], 
@@ -31,7 +32,8 @@ class UserController extends Controller{
                 'name'          => $name,
                 'lastname01'    => $lastname01,
                 'lastname02'    => $lastname02,
-                'phone'         => $phone
+                'phone'         => $phone,
+                'image'         => $image
             );
 
             $this->json = $this->model->signup($data);
