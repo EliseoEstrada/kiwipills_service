@@ -1,38 +1,3 @@
-CREATE DATABASE IF NOT EXISTS kiwipills;
-
-USE kiwipills;
-
-CREATE TABLE IF NOT EXISTS users(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(200) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    username VARCHAR(100) NOT NULL,
-    name VARCHAR(100),
-    lastname01 VARCHAR(100),
-    lastname02 VARCHAR(100),
-    phone VARCHAR(15),
-    image longblob
-)
-
-CREATE TABLE IF NOT EXISTS medicines(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(200),
-    description VARCHAR(500),
-    startDate DATE, 
-    startTime TIME,
-    duration INT,
-    hoursInterval INT,
-
-    monday BIT,
-    thuesday BIT,
-    wednesday BIT,
-    thursday BIT,
-    friday BIT,
-    saturday BIT,
-    sunday BIT,
-    image longblob
-)
-
 
 #//////////////////////////////////////////////////////////////
 #                           PROCEDURES
@@ -87,26 +52,42 @@ DELIMITER ;
 
 
 DELIMITER $%
-CREATE PROCEDURE sp_addMedicine (
+CREATE PROCEDURE sp_addMedicament (
+    IN p_user_id INT,
     IN p_name VARCHAR(200),
     IN p_description VARCHAR(500),
-    IN p_startDate DATE,
+    IN p_startDate VARCHAR(20),
+    IN p_startTime TIME,
     IN p_duration INT,
-    IN p_daysInterval INT,
     IN p_hoursInterval INT,
-    IN p_startTime TIME
+    IN p_monday BOOLEAN,
+    IN p_thuesday BOOLEAN,
+    IN p_wednesday BOOLEAN,
+    IN p_thursday BOOLEAN,
+    IN p_friday BOOLEAN,
+    IN p_saturday BOOLEAN,
+    IN p_sunday BOOLEAN,
+    IN p_image LONGBLOB
 )
 BEGIN
 
-    INSERT INTO medicines
+    INSERT INTO medicaments
     SET
+    user_id         = p_user_id,   
     name            = p_name,
     description     = p_description,
-    startDate       = p_startDate,
+    startDate       = STR_TO_DATE(p_startDate,"%d/%m/%Y"),
+    startTime       = p_startTime,
     duration        = p_duration,
-    daysInterval    = p_daysInterval,
     hoursInterval   = p_hoursInterval,
-    startTime       = p_startTime;
+    monday          = p_monday,
+    thuesday        = p_thuesday,
+    wednesday       = p_wednesday,
+    thursday        = p_thursday,
+    friday          = p_friday,
+    saturday        = p_saturday,
+    sunday          = p_sunday,
+    image           = p_image;
 
 END $%
 DELIMITER ;
