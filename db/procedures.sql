@@ -103,7 +103,25 @@ CREATE PROCEDURE sp_getAllMedicaments (
 )
 BEGIN
 
-    SELECT * FROM medicaments WHERE user_id = p_user_id;
+    SELECT 
+        id,
+        user_id,
+        name,           
+        description,    
+        startDate,      
+        TIME_FORMAT(startTime, '%h:%i') startTime,      
+        duration,       
+        hoursInterval,  
+        monday,         
+        thuesday,       
+        wednesday,      
+        thursday,       
+        friday,         
+        saturday,       
+        sunday,         
+        image   
+    FROM medicaments 
+    WHERE user_id = p_user_id;
 
 END $%
 DELIMITER ;
