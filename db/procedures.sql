@@ -4,6 +4,8 @@
 #//////////////////////////////////////////////////////////////
 
 
+#//////////////////////////REGISTRARSE//////////////////////////
+
 DELIMITER $%
 CREATE PROCEDURE sp_signup (
     IN p_email VARCHAR(200),
@@ -28,13 +30,11 @@ BEGIN
     phone       = p_phone,
     image       = p_image;
 
-    SELECT id, email, password, username, name, lastname01, lastname02, phone, image
-    FROM users 
-    WHERE id= LAST_INSERT_ID();
-
 END $%
 DELIMITER ;
 
+
+#//////////////////////////INICIAR SESION//////////////////////////
 
 DELIMITER $%
 CREATE PROCEDURE sp_login (
@@ -50,6 +50,8 @@ BEGIN
 END $%
 DELIMITER ;
 
+
+#//////////////////////////AGREGAR MEDICAMENTO//////////////////////////
 
 DELIMITER $%
 CREATE PROCEDURE sp_addMedicament (
@@ -93,5 +95,15 @@ END $%
 DELIMITER ;
 
 
-#call sp_addMedicine('name', 'description', '2008-7-04', 1, 2, 3, '08:30');
-#http://localhost/kiwipills/medicine/add&name=e&description=desc&startDate=2008-7-04&duration=1&daysInterval=2&hoursInterval=3&startTime=8:30
+#//////////////////////////OBTENER TODOS LOS MEDICAMENTOS POR USUARO//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_getAllMedicaments (
+    IN p_user_id INT
+)
+BEGIN
+
+    SELECT * FROM medicaments WHERE user_id = p_user_id;
+
+END $%
+DELIMITER ;

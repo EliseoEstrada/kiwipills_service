@@ -53,7 +53,8 @@ class MedicamentModel extends Model{
         
         try{
 
-            $sql = "SELECT * FROM medicaments WHERE user_id = (?) ";
+            //$sql = "SELECT * FROM medicaments WHERE user_id = (?) ";
+            $sql = "CALL sp_getAllMedicaments((?))";
             $connection = $this->db->connect();
 
             $query = $connection->prepare($sql);
