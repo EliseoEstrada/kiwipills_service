@@ -1,11 +1,11 @@
 <?php
 
 class Database{
-    private $host;
-    private $db;
-    private $user;
-    private $password;
-    private $charset;
+    private static $host;
+    private static $db;
+    private static $user;
+    private static $password;
+    private static $charset;
     
     private static $instance;
 
@@ -30,12 +30,12 @@ class Database{
     function connect(){
     
         try{
-            $connection = "mysql:host=".$this->host.";dbname=" . $this->db . ";charset=" . $this->charset;
+            $connection = "mysql:host=".self::$host.";dbname=" . self::$db . ";charset=" . self::$charset;
             $options = [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES   => false,
             ];
-            $pdo = new PDO($connection, $this->user, $this->password, $options);
+            $pdo = new PDO($connection, self::$user, self::$password, $options);
             //$pdo = new PDO($connection,$this->user,$this->password);
         
             return $pdo;

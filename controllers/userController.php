@@ -44,7 +44,7 @@ class UserController extends Controller{
             if($check == 0){
                 $this->json = $this->model->signup($data);
             } else{
-                $this->json = array(0);
+                $this->json = array('error','error');
             }
 
             echo json_encode($this->json);
