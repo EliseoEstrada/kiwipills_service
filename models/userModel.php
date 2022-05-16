@@ -42,10 +42,12 @@ class UserModel extends Model{
             }
 
         }catch(PDOException $e){
-            $result = array('error', $e);
+            echo $e;
+            $result = array(0);
         }
-        //echo json_encode($response);
+
         return $result;
+    
     }
 
     public function login($data){
@@ -80,25 +82,22 @@ class UserModel extends Model{
                     'phone'      => $row['phone'],
                     'image'      => $row['image'],
                 );
-                
-                //$response = array('response', 'user logged in');
+
                 $result = $user;
             }else{
-                $result = array('response', 'user not logged in');
-                //$result = array(0);
+                $result = array(0);
             }
 
         }catch(PDOException $e){
-            $result = array('response', 'server error');
-            //$result = array(0);
+            $result = array(0);
         }
-        //echo json_encode($response);
+
         return $result;
     
     }
 
     public function check_user($data2){
-        $result=true;
+        $result;
 
         try{
             $sql = "CALL sp_check_user( :email)";
@@ -107,16 +106,13 @@ class UserModel extends Model{
             $query->execute($data2);
 
             if($query->rowCount() > 0){
-                $response = array('response', 'user exists');
-                $result = true;
+                $result = 1;
             }else{
-                $response = array('response', 'success user doesnt exists');
-                $result = false;
+                $result = 0;
             }
 
         }catch(PDOException $e){
-            $response = array('response', $e);
-            $result = true;
+            $result = 1;
         }
         //echo json_encode($response);
         return $result;
