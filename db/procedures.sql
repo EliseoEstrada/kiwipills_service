@@ -50,6 +50,25 @@ BEGIN
 END $%
 DELIMITER ;
 
+#//////////////////////////EDITAR PERFIL//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_editProfile (
+    IN p_password VARCHAR(100),
+    IN p_username VARCHAR(100),
+    IN p_name VARCHAR(100),
+    IN p_lastname01 VARCHAR(100),
+    In p_lastname02 VARCHAR(100),
+    IN p_phone VARCHAR(15),
+    IN p_image longblob
+)
+BEGIN
+
+    UPDATE users SET password = p_password, username = p_username, name = p_name,
+    lastname01 = p_lastname01, lastname02 = p_lastname02, phone = p_phone, image = p_image;
+
+END $%
+DELIMITER ;
 
 #//////////////////////////AGREGAR MEDICAMENTO//////////////////////////
 
@@ -128,6 +147,8 @@ DELIMITER ;
 
 DELIMITER $%
 
+#//////////////////////////VERIFICAR QUE USUARIO NO EXISTA AL REGISTRARSE//////////////////////////
+
 CREATE PROCEDURE sp_check_user (
 
     IN p_email VARCHAR(200)
@@ -136,8 +157,6 @@ CREATE PROCEDURE sp_check_user (
 
 BEGIN
 
-
-
     SELECT email
 
     FROM users
@@ -145,7 +164,5 @@ BEGIN
     WHERE email = p_email;
 
 
-
 END $%
-
 DELIMITER ;

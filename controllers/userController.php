@@ -68,4 +68,23 @@ class UserController extends Controller{
         }
     }
 
+    function editProfile(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $this->getdataparamaters_json();
+
+            $data = array(
+                'password'   => $data['password'],
+                'username'   => $data['username'],
+                'name'       => $data['name'],
+                'lastname01' => $data['lastname01'],
+                'lastname02' => $data['lastname02'],
+                'phone'      => $data['phone'],
+                'image'      => $data['image']
+            );
+
+            $this->json = $this->model->edit_profile($data);
+            echo json_encode($this->json);
+        }
+    }
+
 }
