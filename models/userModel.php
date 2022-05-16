@@ -10,34 +10,35 @@ class UserModel extends Model{
         $result;
 
         try{
-            $sql = "CALL sp_signup( :email, :password, :username, :name, :lastname01, :lastname02, :phone)";
-            //$sql = "SELECT id, email, password, username FROM users WHERE email = '".$data['email']."' AND password = '".$data['password']."'";
+            $sql = "CALL sp_signup( :email, :password, :username, :name, :lastname01, :lastname02, :phone, :image)";
+            
+            /*
+            $sql = 
+                "INSERT INTO users
+                SET
+                email       = :email,
+                password    = :password,
+                username    = :username,
+                name        = :name,
+                lastname01  = :lastname01,
+                lastname02  = :lastname02,
+                phone       = :phone,
+                image       = :image";
+            */
  
             $connection = $this->db->connect();
 
             //$query = $connection->query($sql);
 
             $query = $connection->prepare($sql);
-            $query->execute($data);
 
-            if($query->rowCount() > 0){
-               
-                $row = $query->fetch();
-
-                $user = array(
-                    'id'         => $row['id'],
-                    'email'      => $row['email'],
-                    'password'   => $row['password'],
-                    'username'   => $row['username'],
-                    'name'       => $row['name'],
-                    'lastname01' => $row['lastname01'],
-                    'lastname02' => $row['lastname02'],
-                    'phone'      => $row['phone'],
+            if($query->execute($data)){
+                $dataLogin = array(
+                    'email'    => $data['email'], 
+                    'password' => $data['password']
                 );
-                //$response = array('result', 'success user added');
-                $result = $user;
-            }else{
-                $result = array('result', 'error');
+
+                $result = $this->login($dataLogin);
             }
 
         }catch(PDOException $e){
@@ -52,6 +53,14 @@ class UserModel extends Model{
 
         try{
             $sql = "CALL sp_login( :email, :password)";
+            
+            /*
+            $sql = 
+                "SELECT id, email, password, username, name, lastname01, lastname02, phone, image
+                FROM users 
+                WHERE email = :email AND password = :password;";
+            */
+            
             $connection = $this->db->connect();
             $query = $connection->prepare($sql);
             $query->execute($data);
@@ -69,6 +78,7 @@ class UserModel extends Model{
                     'lastname01' => $row['lastname01'],
                     'lastname02' => $row['lastname02'],
                     'phone'      => $row['phone'],
+                    'image'      => $row['image'],
                 );
                 
                 //$response = array('response', 'user logged in');
