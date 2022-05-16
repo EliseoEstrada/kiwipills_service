@@ -145,10 +145,11 @@ BEGIN
 END $%
 DELIMITER ;
 
-DELIMITER $%
+
 
 #//////////////////////////VERIFICAR QUE USUARIO NO EXISTA AL REGISTRARSE//////////////////////////
 
+DELIMITER $%
 CREATE PROCEDURE sp_check_user (
 
     IN p_email VARCHAR(200)

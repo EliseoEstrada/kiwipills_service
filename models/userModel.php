@@ -124,7 +124,7 @@ class UserModel extends Model{
     }
 
     public function edit_profile($data){
-        $result;
+        $result = false;
 
         try{
             $sql = "CALL sp_editProfile( :password, :username, :name, :lastname01, :lastname02, :phone, :image)";
