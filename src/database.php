@@ -7,12 +7,24 @@ class Database{
     private $password;
     private $charset;
     
-    public function __construct(){
-        $this->host = HOST;
-        $this->db = DB;
-        $this->user = USER;
-        $this->password = PASSWORD;
-        $this->charset = CHARSET;
+    private static $instance;
+
+    protected function __construct(){
+        
+    }
+
+    public static function getInstance() {
+        $cls = static::class;
+        if (!isset(self::$instance)){
+            self::$instance = new static();
+            self::$host = HOST;
+            self::$db = DB;
+            self::$user = USER;
+            self::$password = PASSWORD;
+            self::$charset = CHARSET;
+        }
+
+        return self::$instance;
     }
 
     function connect(){
