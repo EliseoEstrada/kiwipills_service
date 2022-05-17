@@ -119,26 +119,43 @@ class UserModel extends Model{
     
     }
 
-    public function edit_profile($data){
+    public function editProfile($data){
         $result = false;
 
         try{
-            $sql = "CALL sp_editProfile( :password, :username, :name, :lastname01, :lastname02, :phone, :image)";
+            $sql = "CALL sp_editProfile( :id, :email, :password, :username, :name, :lastname01, :lastname02, :phone, :image)";
  
             $connection = $this->db->connect();
-
             $query = $connection->prepare($sql);
+            $query->execute($data);
 
-            if($query->execute($data)){
-                $result = true;
-            } else {
-                $result = array('error', 'user profile edit error');
+            if($query->rowCount() > 0){
+               
+                $row = $query->fetch();
+
+                $user = array(
+                    'id'         => $row['id'],
+                    'email'      => $row['email'],
+                    'password'   => $row['password'],
+                    'username'   => $row['username'],
+                    'name'       => $row['name'],
+                    'lastname01' => $row['lastname01'],
+                    'lastname02' => $row['lastname02'],
+                    'phone'      => $row['phone'],
+                    'image'      => $row['image'],
+                );
+
+                $result = $user;
+            }else{
+                $result = array(0);
             }
+            
 
         }catch(PDOException $e){
-            $result = array('error', $e);
+            echo $e;
+            $result = array(0);
         }
-        
+
         return $result;
     }
 

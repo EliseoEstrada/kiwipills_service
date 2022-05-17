@@ -72,17 +72,26 @@ class UserController extends Controller{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $data = $this->getdataparamaters_json();
 
+            $name = isset($data['name']) ? $data['name'] : "";
+            $lastname01 = isset($data['lastname01']) ? $data['lastname01'] : "";
+            $lastname02 = isset($data['lastname02']) ? $data['lastname02'] : "";
+            $phone = isset($data['phone']) ? $data['phone'] : "";
+            $image = isset($data['image']) ? $data['image'] : "";
+
             $data = array(
-                'password'   => $data['password'],
-                'username'   => $data['username'],
-                'name'       => $data['name'],
-                'lastname01' => $data['lastname01'],
-                'lastname02' => $data['lastname02'],
-                'phone'      => $data['phone'],
-                'image'      => $data['image']
+                'id'            => $data['id'],
+                'email'         => $data['email'],
+                'password'      => $data['password'],
+                'username'      => $data['username'],
+                'name'          => $name,
+                'lastname01'    => $lastname01,
+                'lastname02'    => $lastname02,
+                'phone'         => $phone,
+                'image'         => $image
             );
 
-            $this->json = $this->model->edit_profile($data);
+            $this->json = $this->model->editProfile($data);
+            
             echo json_encode($this->json);
         }
     }

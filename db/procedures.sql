@@ -54,6 +54,8 @@ DELIMITER ;
 
 DELIMITER $%
 CREATE PROCEDURE sp_editProfile (
+    IN p_userid INT,
+    IN p_email VARCHAR(200),
     IN p_password VARCHAR(100),
     IN p_username VARCHAR(100),
     IN p_name VARCHAR(100),
@@ -65,7 +67,11 @@ CREATE PROCEDURE sp_editProfile (
 BEGIN
 
     UPDATE users SET password = p_password, username = p_username, name = p_name,
-    lastname01 = p_lastname01, lastname02 = p_lastname02, phone = p_phone, image = p_image;
+    lastname01 = p_lastname01, lastname02 = p_lastname02, phone = p_phone, image = p_image WHERE id = p_userid;
+
+    SELECT id, email, password, username, name, lastname01, lastname02, phone, image
+    FROM users 
+    WHERE id = p_userid;
 
 END $%
 DELIMITER ;
