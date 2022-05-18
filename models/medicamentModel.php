@@ -15,7 +15,8 @@ class MedicamentModel extends Model{
                 :user_id,
                 :name, 
                 :description, 
-                :startDate, 
+                :startDate,
+                :endDate,
                 :startTime, 
                 :duration, 
                 :hoursInterval,
@@ -74,6 +75,7 @@ class MedicamentModel extends Model{
                         'name'          => $row['name'],
                         'description'   => $row['description'],
                         'startDate'     => $row['startDate'],
+                        'endDate'       => $row['endDate'],
                         'startTime'     => $row['startTime'],
                         'duration'      => $row['duration'],
                         'hoursInterval' => $row['hoursInterval'],
@@ -96,6 +98,65 @@ class MedicamentModel extends Model{
             }
 
         }catch(PDOException $e){
+            $items = array(0);
+        }
+
+        return $items;
+    }
+
+    function getByDay($user_id, $day){
+
+        $items = [];
+
+        $data = array(
+            'user_id'       => $user_id,
+            'day'          => $day,
+        );
+        
+        try{
+
+            $sql = "CALL sp_getMedsByDay(:user_id, :day)";
+            $connection = $this->db->connect();
+
+            $query = $connection->prepare($sql);
+            //$query->bindValue(1, $user_id);
+            //$query->bindValue(2, $day);
+            
+            $query->execute($data);
+            
+            if($query->rowCount() > 0){
+                
+                while($row = $query->fetch()){
+                    //$item = $row;
+                    
+                    $item = array(
+                        'id'            => $row['id'],
+                        'user_id'       => $row['user_id'],
+                        'name'          => $row['name'],
+                        'description'   => $row['description'],
+                        'startDate'     => $row['startDate'],
+                        'endDate'       => $row['endDate'],
+                        'startTime'     => $row['startTime'],
+                        'duration'      => $row['duration'],
+                        'hoursInterval' => $row['hoursInterval'],
+                        'monday'        => ($row['monday'] == 1) ? true : false,
+                        'thuesday'      => ($row['thuesday'] == 1) ? true : false,
+                        'wednesday'     => ($row['wednesday'] == 1) ? true : false,
+                        'thursday'      => ($row['thursday'] == 1) ? true : false,
+                        'friday'        => ($row['friday'] == 1) ? true : false,
+                        'saturday'      => ($row['saturday'] == 1) ? true : false,
+                        'sunday'        => ($row['sunday'] == 1) ? true : false,
+                        'image'         => $row['image'],
+                        'alarmIds'      => $row['alarmIds']
+                
+                    );
+                    
+                    array_push($items, $item);
+                }
+            }
+
+        }catch(PDOException $e){
+            echo $e;
             $items = array(0);
         }
 

@@ -84,6 +84,7 @@ CREATE PROCEDURE sp_addMedicament (
     IN p_name VARCHAR(200),
     IN p_description VARCHAR(500),
     IN p_startDate VARCHAR(20),
+    IN p_endDate VARCHAR(20),
     IN p_startTime TIME,
     IN p_duration INT,
     IN p_hoursInterval INT,
@@ -105,6 +106,7 @@ BEGIN
     name            = p_name,
     description     = p_description,
     startDate       = STR_TO_DATE(p_startDate,"%d/%m/%Y"),
+    endDate       	= STR_TO_DATE(p_endDate,"%d/%m/%Y"),
     startTime       = p_startTime,
     duration        = p_duration,
     hoursInterval   = p_hoursInterval,
@@ -135,7 +137,8 @@ BEGIN
         user_id,
         name,           
         description,    
-        startDate,      
+        startDate,
+        endDate,    
         TIME_FORMAT(startTime, '%h:%i') startTime,      
         duration,       
         hoursInterval,  
@@ -174,5 +177,53 @@ BEGIN
     WHERE email = p_email;
 
 
+END $%
+DELIMITER ;
+
+#//////////////////////////OBTENER TODOS LOS MEDICAMENTOS POR DIA//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_getMedsByDay (
+    IN p_user_id INT,
+    IN p_day TEXT
+)
+BEGIN
+    CASE
+        WHEN p_day = 2 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.monday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 3 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.thuesday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 4 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.wednesday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 5 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.thursday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 6 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.friday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 7 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.saturday = TRUE
+            ORDER BY startTime DESC;
+        WHEN p_day = 1 THEN 
+			SELECT M.* FROM medicaments M
+			INNER JOIN users U ON U.id = M.user_id
+			WHERE M.sunday = TRUE
+			ORDER BY startTime DESC;
+    END CASE;
 END $%
 DELIMITER ;

@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS medicaments(
     name VARCHAR(200),
     description VARCHAR(500),
     startDate DATE, 
+    endDate DATE, 
     startTime TIME,
     duration INT,
     hoursInterval INT,

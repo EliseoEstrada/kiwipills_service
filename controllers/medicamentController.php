@@ -34,6 +34,7 @@ class MedicamentController extends Controller{
                 'name'          => $data['name'],
                 'description'   => $data['description'],
                 'startDate'     => $data['startDate'] ,
+                'endDate'     => $data['endDate'] ,
                 'startTime'     => $data['startTime'] ,
                 'duration'      => $data['duration'],
                 'hoursInterval' => $data['hoursInterval'],
@@ -58,6 +59,14 @@ class MedicamentController extends Controller{
         if($_SERVER['REQUEST_METHOD'] === 'GET'){
            
             $this->json = $this->model->getAll($_GET['user_id']);
+            echo json_encode($this->json);
+        }
+    }
+
+    function getByDay(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+           
+            $this->json = $this->model->getByDay($_GET['user_id'], $_GET['day']);
             echo json_encode($this->json);
         }
     }
