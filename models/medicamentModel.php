@@ -26,7 +26,8 @@ class MedicamentModel extends Model{
                 :friday,        
                 :saturday,      
                 :sunday,        
-                :image
+                :image,
+                :alarmIds
             )";   
 
             $connection = $this->db->connect();
@@ -83,7 +84,8 @@ class MedicamentModel extends Model{
                         'friday'        => ($row['friday'] == 1) ? true : false,
                         'saturday'      => ($row['saturday'] == 1) ? true : false,
                         'sunday'        => ($row['sunday'] == 1) ? true : false,
-                        'image'         => $row['image']
+                        'image'         => $row['image'],
+                        'alarmIds'      => $row['alarmIds']
                 
                     );
                     

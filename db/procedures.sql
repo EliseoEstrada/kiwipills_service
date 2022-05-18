@@ -94,7 +94,8 @@ CREATE PROCEDURE sp_addMedicament (
     IN p_friday BOOLEAN,
     IN p_saturday BOOLEAN,
     IN p_sunday BOOLEAN,
-    IN p_image LONGBLOB
+    IN p_image LONGBLOB,
+    in p_alarms TEXT
 )
 BEGIN
 
@@ -114,7 +115,8 @@ BEGIN
     friday          = p_friday,
     saturday        = p_saturday,
     sunday          = p_sunday,
-    image           = p_image;
+    image           = p_image,
+    alarmIds        = p_alarms;
 
 END $%
 DELIMITER ;
@@ -144,7 +146,8 @@ BEGIN
         friday,         
         saturday,       
         sunday,         
-        image   
+        image,
+        alarmIds  
     FROM medicaments 
     WHERE user_id = p_user_id;
 
