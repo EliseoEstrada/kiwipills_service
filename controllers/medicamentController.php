@@ -71,4 +71,15 @@ class MedicamentController extends Controller{
         }
     }
 
+    function delete(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $this->getdataparamaters_json();
+            $data = array(
+                'med_id'       => $data
+            );
+            $this->json = $this->model->delete($data);
+            echo json_encode($this->json);
+        }
+    }
+
 }

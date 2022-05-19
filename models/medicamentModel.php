@@ -162,6 +162,20 @@ class MedicamentModel extends Model{
 
         return $items;
     }
+
+    function delete($data){
+        $result = 1;
+        try{
+            $sql = "CALL sp_deleteMed(:med_id)";   
+            $connection = $this->db->connect();
+            $query = $connection->prepare($sql);
+            $query->execute($data);
+        }catch(PDOException $e){
+            echo $e;
+            $result = 0;
+        }
+        return $result;
+    }
 }
 
 ?>
