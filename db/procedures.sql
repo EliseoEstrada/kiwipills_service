@@ -227,3 +227,16 @@ BEGIN
     END CASE;
 END $%
 DELIMITER ;
+
+
+#//////////////////////////BORRAR MEDICAMENTO//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_deleteMed (
+    IN p_med_id INT
+)
+BEGIN
+	DELETE FROM medicaments
+    WHERE id = p_med_id;
+END $%
+DELIMITER ;
