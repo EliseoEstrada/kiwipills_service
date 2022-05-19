@@ -28,7 +28,8 @@ class MedicamentModel extends Model{
                 :saturday,      
                 :sunday,        
                 :image,
-                :alarmIds
+                :alarmIds,
+                :draft
             )";   
 
             $connection = $this->db->connect();

@@ -35,5 +35,6 @@ CREATE TABLE IF NOT EXISTS medicaments(
     saturday BOOLEAN,
     sunday BOOLEAN,
     image longblob,
-    alarmIds TEXT
+    alarmIds TEXT,
+    draft BOOLEAN
 )

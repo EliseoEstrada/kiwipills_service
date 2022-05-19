@@ -28,6 +28,7 @@ class MedicamentController extends Controller{
             $sunday     = (isset($data['sunday']) && $data['sunday'] )? 1 : 0;
             $image      = isset($data['image']) ? $data['image'] : "";
             $alarmIds   = isset($data['alarmIds']) ? $data['alarmIds'] : "";
+            $draft     = (isset($data['draft']) && $data['draft'] )? 1 : 0;
 
             $data = array(
                 'user_id'       => $data['user_id'],
@@ -46,7 +47,8 @@ class MedicamentController extends Controller{
                 'saturday'      => $saturday,
                 'sunday'        => $sunday,
                 'image'         => $image,
-                'alarmIds'      => $alarmIds
+                'alarmIds'      => $alarmIds,
+                'draft'         => $draft
             );
 
             //echo json_encode($data);
