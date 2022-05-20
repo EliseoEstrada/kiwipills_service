@@ -50,7 +50,7 @@ class MedicamentModel extends Model{
     
     }
     
-     function getAll($user_id){
+    function getAll($user_id){
 
         $items = [];
         
@@ -88,8 +88,8 @@ class MedicamentModel extends Model{
                         'saturday'      => ($row['saturday'] == 1) ? true : false,
                         'sunday'        => ($row['sunday'] == 1) ? true : false,
                         'image'         => $row['image'],
-                        'alarmIds'      => $row['alarmIds']
-                
+                        'alarmIds'      => $row['alarmIds'],
+                        'draft'         => $row['draft']
                     );
                     
                     array_push($items, $item);
@@ -175,6 +175,179 @@ class MedicamentModel extends Model{
             echo $e;
             $result = 0;
         }
+        return $result;
+    }
+
+    function getDrafts($user_id){
+
+        $items = [];
+        
+        try{
+            $sql = "CALL sp_getDrafts((?))";
+            $connection = $this->db->connect();
+
+            $query = $connection->prepare($sql);
+            $query->bindValue(1, $user_id);
+
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                
+                while($row = $query->fetch()){
+                    //$item = $row;
+                    
+                    $item = array(
+                        'id'            => $row['id'],
+                        'user_id'       => $row['user_id'],
+                        'name'          => $row['name'],
+                        'description'   => $row['description'],
+                        'startDate'     => $row['startDate'],
+                        'endDate'       => $row['endDate'],
+                        'startTime'     => $row['startTime'],
+                        'duration'      => $row['duration'],
+                        'hoursInterval' => $row['hoursInterval'],
+                        'monday'        => ($row['monday'] == 1) ? true : false,
+                        'thuesday'      => ($row['thuesday'] == 1) ? true : false,
+                        'wednesday'     => ($row['wednesday'] == 1) ? true : false,
+                        'thursday'      => ($row['thursday'] == 1) ? true : false,
+                        'friday'        => ($row['friday'] == 1) ? true : false,
+                        'saturday'      => ($row['saturday'] == 1) ? true : false,
+                        'sunday'        => ($row['sunday'] == 1) ? true : false,
+                        'image'         => $row['image'],
+                        'alarmIds'      => $row['alarmIds'],
+                        'draft'         => $row['draft']
+                    );
+                    
+                    array_push($items, $item);
+                }
+                
+                //var_dump($items);
+            }
+
+        }catch(PDOException $e){
+            $items = array(0);
+        }
+
+        return $items;
+    }
+
+    function publishDraft($data){
+        $result = 1;
+        try{
+            $sql = "CALL sp_publishDraft(:med_id)";   
+            $connection = $this->db->connect();
+            $query = $connection->prepare($sql);
+            $query->execute($data);
+        }catch(PDOException $e){
+            echo $e;
+            $result = 0;
+        }
+        return $result;
+    }
+
+    function getAllDrafts($user_id){
+
+        $items = [];
+        
+        try{
+
+            //$sql = "SELECT * FROM medicaments WHERE user_id = (?) ";
+            $sql = "CALL sp_getDrafts((?))";
+            $connection = $this->db->connect();
+
+            $query = $connection->prepare($sql);
+            $query->bindValue(1, $user_id);
+
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                
+                while($row = $query->fetch()){
+                    //$item = $row;
+                    
+                    $item = array(
+                        'id'            => $row['id'],
+                        'user_id'       => $row['user_id'],
+                        'name'          => $row['name'],
+                        'description'   => $row['description'],
+                        'startDate'     => $row['startDate'],
+                        'endDate'       => $row['endDate'],
+                        'startTime'     => $row['startTime'],
+                        'duration'      => $row['duration'],
+                        'hoursInterval' => $row['hoursInterval'],
+                        'monday'        => ($row['monday'] == 1) ? true : false,
+                        'thuesday'      => ($row['thuesday'] == 1) ? true : false,
+                        'wednesday'     => ($row['wednesday'] == 1) ? true : false,
+                        'thursday'      => ($row['thursday'] == 1) ? true : false,
+                        'friday'        => ($row['friday'] == 1) ? true : false,
+                        'saturday'      => ($row['saturday'] == 1) ? true : false,
+                        'sunday'        => ($row['sunday'] == 1) ? true : false,
+                        'image'         => $row['image'],
+                        'alarmIds'      => $row['alarmIds'],
+                        'draft'         => ($row['draft'] == 1) ? true : false
+                    );
+                    
+                    array_push($items, $item);
+                }
+                
+                //var_dump($items);
+            }
+
+        }catch(PDOException $e){
+            $items = array(0);
+        }
+
+        return $items;
+    }
+
+    function get($med_id){
+
+        $result;
+        
+        try{
+
+            //$sql = "SELECT * FROM medicaments WHERE user_id = (?) ";
+            $sql = "CALL sp_getDrafts((?))";
+            $connection = $this->db->connect();
+
+            $query = $connection->prepare($sql);
+            $query->bindValue(1, $med_id);
+
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                $row = $query->fetch();
+                $medicine = array(
+                    'id'            => $row['id'],
+                    'user_id'       => $row['user_id'],
+                    'name'          => $row['name'],
+                    'description'   => $row['description'],
+                    'startDate'     => $row['startDate'],
+                    'endDate'       => $row['endDate'],
+                    'startTime'     => $row['startTime'],
+                    'duration'      => $row['duration'],
+                    'hoursInterval' => $row['hoursInterval'],
+                    'monday'        => ($row['monday'] == 1) ? true : false,
+                    'thuesday'      => ($row['thuesday'] == 1) ? true : false,
+                    'wednesday'     => ($row['wednesday'] == 1) ? true : false,
+                    'thursday'      => ($row['thursday'] == 1) ? true : false,
+                    'friday'        => ($row['friday'] == 1) ? true : false,
+                    'saturday'      => ($row['saturday'] == 1) ? true : false,
+                    'sunday'        => ($row['sunday'] == 1) ? true : false,
+                    'image'         => $row['image'],
+                    'alarmIds'      => $row['alarmIds'],
+                    'draft'         => ($row['draft'] == 1) ? true : false
+                );
+                $result = $medicine;
+            }else{
+                $result = array(0);
+            }
+
+            
+        }catch(PDOException $e){
+            $result = array(0);
+        }
+
         return $result;
     }
 }

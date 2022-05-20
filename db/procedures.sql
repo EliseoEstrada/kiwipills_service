@@ -96,7 +96,8 @@ CREATE PROCEDURE sp_addMedicament (
     IN p_saturday BOOLEAN,
     IN p_sunday BOOLEAN,
     IN p_image LONGBLOB,
-    in p_alarms TEXT
+    IN p_alarms TEXT,
+    IN p_draft BOOLEAN
 )
 BEGIN
 
@@ -118,7 +119,8 @@ BEGIN
     saturday        = p_saturday,
     sunday          = p_sunday,
     image           = p_image,
-    alarmIds        = p_alarms;
+    alarmIds        = p_alarms,
+    draft           = p_draft,
 
 END $%
 DELIMITER ;
@@ -150,9 +152,11 @@ BEGIN
         saturday,       
         sunday,         
         image,
-        alarmIds  
+        alarmIds,
+        draft
     FROM medicaments 
-    WHERE user_id = p_user_id;
+    WHERE user_id = p_user_id
+    AND draft = 0;
 
 END $%
 DELIMITER ;
@@ -240,3 +244,50 @@ DELIMITER ;
         WHERE id = p_med_id;
     END $%
     DELIMITER ;
+
+#//////////////////////////OBTENER TODOS LOS BORRADORES DE MEDICAMENTOS POR USUARO//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_getDrafts (
+    IN p_user_id INT
+)
+BEGIN
+
+    SELECT 
+        id,
+        user_id,
+        name,           
+        description,    
+        startDate,
+        endDate,    
+        TIME_FORMAT(startTime, '%h:%i') startTime,      
+        duration,       
+        hoursInterval,  
+        monday,         
+        thuesday,       
+        wednesday,      
+        thursday,       
+        friday,         
+        saturday,       
+        sunday,         
+        image,
+        alarmIds,
+        draft
+    FROM medicaments 
+    WHERE user_id = p_user_id 
+    AND draft = 1;
+
+END $%
+DELIMITER ;
+
+
+#//////////////////////////OBTENER MEDICAMENTO//////////////////////////
+
+DELIMITER $%
+CREATE PROCEDURE sp_getMedicine (
+    IN p_med_id INT
+)
+BEGIN
+	SELECT * FROM medicaments WHERE id = p_med_id;
+END $%
+DELIMITER ;

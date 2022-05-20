@@ -84,4 +84,31 @@ class MedicamentController extends Controller{
         }
     }
 
+    function getDrafts(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+           
+            $this->json = $this->model->getAllDrafts($_GET['user_id']);
+            echo json_encode($this->json);
+        }
+    }
+
+    function publishDraft(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $this->getdataparamaters_json();
+            $data = array(
+                'med_id'       => $data
+            );
+            $this->json = $this->model->publishDraft($data);
+            echo json_encode($this->json);
+        }
+    }
+
+    function get(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+           
+            $this->json = $this->model->get($_GET['med_id']);
+            echo json_encode($this->json);
+        }
+    }
+
 }
