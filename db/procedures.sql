@@ -141,7 +141,7 @@ BEGIN
         description,    
         startDate,
         endDate,    
-        TIME_FORMAT(startTime, '%h:%i') startTime,      
+        TIME_FORMAT(startTime, '%H:%i') startTime,      
         duration,       
         hoursInterval,  
         monday,         
@@ -156,7 +156,8 @@ BEGIN
         draft
     FROM medicaments 
     WHERE user_id = p_user_id
-    AND draft = 0;
+    AND draft = 0
+    ORDER BY name;
 
 END $%
 DELIMITER ;
