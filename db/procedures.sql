@@ -193,41 +193,49 @@ CREATE PROCEDURE sp_getMedsByDay (
     IN p_day TEXT
 )
 BEGIN
+    BEGIN
     CASE
         WHEN p_day = 2 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.monday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 3 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.thuesday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 4 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.wednesday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 5 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.thursday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 6 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.friday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 7 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.saturday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
             ORDER BY startTime DESC;
         WHEN p_day = 1 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
 			WHERE M.sunday = TRUE AND M.user_id = p_user_id
+            AND M.draft = 0
 			ORDER BY startTime DESC;
     END CASE;
 END $%
@@ -291,4 +299,50 @@ CREATE PROCEDURE sp_getMedicine (
 BEGIN
 	SELECT * FROM medicaments WHERE id = p_med_id;
 END $%
+DELIMITER ;
+
+#//////////////////////////EDITAR MEDICAMENTO//////////////////////////
+DELIMITER //
+CREATE PROCEDURE sp_editMed(
+    IN p_med_id INT,
+    IN p_name VARCHAR(200),
+    IN p_description VARCHAR(500),
+    IN p_startDate VARCHAR(20),
+    IN p_endDate VARCHAR(20),
+    IN p_startTime TIME,
+    IN p_duration INT,
+    IN p_hoursInterval INT,
+    IN p_monday BOOLEAN,
+    IN p_thuesday BOOLEAN,
+    IN p_wednesday BOOLEAN,
+    IN p_thursday BOOLEAN,
+    IN p_friday BOOLEAN,
+    IN p_saturday BOOLEAN,
+    IN p_sunday BOOLEAN,
+    IN p_image LONGBLOB,
+    IN p_alarmIds TEXT,
+    IN p_draft BOOLEAN
+)
+BEGIN
+    UPDATE medicaments
+	SET
+    name            = p_name,
+    description     = p_description,
+    startDate       = STR_TO_DATE(p_startDate,"%d/%m/%Y"),
+    endDate       	= STR_TO_DATE(p_endDate,"%d/%m/%Y"),
+    startTime       = p_startTime,
+    duration        = p_duration,
+    hoursInterval   = p_hoursInterval,
+    monday          = p_monday,
+    thuesday        = p_thuesday,
+    wednesday       = p_wednesday,
+    thursday        = p_thursday,
+    friday          = p_friday,
+    saturday        = p_saturday,
+    sunday          = p_sunday,
+    image           = p_image,
+    alarmIds        = p_alarmIds,
+    draft           = p_draft
+    WHERE id = p_med_id;
+END //
 DELIMITER ;

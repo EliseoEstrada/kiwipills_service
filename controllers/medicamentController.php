@@ -110,5 +110,16 @@ class MedicamentController extends Controller{
             echo json_encode($this->json);
         }
     }
+    
+    function edit(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $this->getdataparamaters_json();
+            $data = array(
+                'med_id'       => $data
+            );
+            $this->json = $this->model->edit($data);
+            echo json_encode($this->json);
+        }
+    }
 
 }
