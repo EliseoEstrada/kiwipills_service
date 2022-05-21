@@ -139,7 +139,7 @@ BEGIN
         description,    
         startDate,
         endDate,    
-        TIME_FORMAT(startTime, '%h:%i') startTime,      
+        TIME_FORMAT(startTime, '%H:%i') startTime,      
         duration,       
         hoursInterval,  
         monday,         
@@ -152,7 +152,8 @@ BEGIN
         image,
         alarmIds  
     FROM medicaments 
-    WHERE user_id = p_user_id;
+    WHERE user_id = p_user_id
+    ORDER BY name;
 
 END $%
 DELIMITER ;
