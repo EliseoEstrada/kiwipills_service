@@ -192,37 +192,37 @@ BEGIN
         WHEN p_day = 2 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.monday = TRUE
+			WHERE M.monday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 3 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.thuesday = TRUE
+			WHERE M.thuesday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 4 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.wednesday = TRUE
+			WHERE M.wednesday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 5 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.thursday = TRUE
+			WHERE M.thursday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 6 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.friday = TRUE
+			WHERE M.friday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 7 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.saturday = TRUE
+			WHERE M.saturday = TRUE AND M.user_id = p_user_id
             ORDER BY startTime DESC;
         WHEN p_day = 1 THEN 
 			SELECT M.* FROM medicaments M
 			INNER JOIN users U ON U.id = M.user_id
-			WHERE M.sunday = TRUE
+			WHERE M.sunday = TRUE AND M.user_id = p_user_id
 			ORDER BY startTime DESC;
     END CASE;
 END $%
